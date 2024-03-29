@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&family=Pacifico&display=swap");
+
+@font-face {
+  font-family: "gilroyMedium";
+  src: url("./styles/font-gilroy/Gilroy-Medium.ttf") format("ttf"),
+    url("./styles/font-gilroy/Gilroy-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "gilroyRegular";
+  src: url("./styles/font-gilroy/Gilroy-Regular.ttf") format("ttf"),
+    url("./styles/font-gilroy/Gilroy-Regular.woff") format("woff");
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+a {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+  text-decoration: none;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: #f3f5f6;
+  font-family: "gilroyRegula", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+}
+
+html {
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.gilroyM {
+  font-weight: 400;
+  font-family: "gilroyMedium", sans-serif;
+}
+
+.gilroyR {
+  font-weight: 400;
+  font-family: "gilroyRegular", sans-serif;
+}
+
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+
+.primary-color {
+  color: #42b2fc;
+  // :hover 4495b7
+}
+
+.text-color {
+  color: #282828;
+}
+
+.text-color-gray {
+  color: #717171;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./styles/select";
+@import "./components/atoms/modal/modal";
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}

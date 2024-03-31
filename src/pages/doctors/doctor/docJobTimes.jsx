@@ -5,23 +5,8 @@ import Modal from "../../../components/atoms/modal/Modal";
 
 //database
 import times from "../../../database/jobTimes.json";
+import dayNames from "../../../database/dayNames.json";
 import monthNames from "../../../database/monthName.json";
-
-// Kichik funksiya, berilgan tilga qarab, qisqacha kundan ismni qaytaradi
-function getShortDayNames(language) {
-  switch (language) {
-    case "ru":
-      return [
-        "понедельник",
-        "вторник",
-        "среда",
-        "четверг",
-        "пятница",
-        "суббота",
-        "воскресенье",
-      ];
-  }
-}
 
 export default function DocJobTimes({ doctor }) {
   const [next, setNext] = useState(false);
@@ -35,35 +20,35 @@ export default function DocJobTimes({ doctor }) {
     return Math.floor(Math.random() * 20) + 1;
   }
 
-  // Hafta ma'lumotlarini olish uchun funksiya
-  function getWeekDatas(lang, next) {
-    const today = DateTime.now(); // Bugungi sana
-    // Haftaning boshlanish sanasi
-    const startOfWeek = today.startOf("week");
+  function getWeekDatas() {
+    const todayDate = DateTime.now();
+    const todayDay = todayDate.plus({ days: 7 });
+    const previousSunday = todayDay.minus({ days: 1 });
+    const previousMonday = previousSunday.minus({ days: 6 });
 
-    // Keyingi haftaning kunlari va ma'lumotlari
-    const monDay = [];
-    const weekDays = Array.from({ length: 7 }, (_, i) => {
-      const day = startOfWeek.plus({ days: next + i });
+    const weekdays = [];
+    let day = previousMonday;
+    while (day <= previousSunday) {
       const time = times.map((time, key) => {
         return {
           time,
           busy: randomId() == key,
         };
       });
-      monDay.push(next == 0 && day.day + 1);
-      return {
+
+      weekdays.push({
+        times: time,
         day: day.day,
         id: day.weekday,
-        name: getShortDayNames(lang)[i],
+        name: dayNames[day.weekday - 1],
         month: monthNames[day.month - 1],
-        times: time,
-      };
-    });
+      });
+      day = day.plus({ days: 1 });
+    }
 
     setLoading(false);
     setLoading(true);
-    return weekDays;
+    return weekdays;
   }
 
   function classActive(week, active, time, busy) {
@@ -84,9 +69,9 @@ export default function DocJobTimes({ doctor }) {
   };
 
   useEffect(() => {
-    const jobweekData = getWeekDatas("ru", 0);
-    setWeekData(jobweekData?.slice(0, 3));
+    const jobweekData = getWeekDatas();
     setJobWeekData(jobweekData);
+    setWeekData(jobweekData?.slice(0, 3));
   }, []);
 
   if (!loading) return <p>loading</p>;
@@ -139,18 +124,14 @@ export default function DocJobTimes({ doctor }) {
       <button
         onClick={() => setOpenImg(true)}
         className={`${
-          // Object.keys(active).length == 0
           active == undefined
             ? "opacity-50 cursor-not-allowed hover:bg-[#42b2fc]"
             : "hover:bg-transparent hover:text-[#42b2fc]"
         } bg-[#42b2fc] rounded-lg border border-[#42b2fc] text-base text-white gilroyM p-6 pt-[14px] pb-[14px] transition`}
       >
-        {
-          // Object.keys(active).length == 0
-          active == undefined
-            ? "Выберите время приема"
-            : `Выбрать ${active?.day} ${active?.month}, ${active?.time}`
-        }
+        {active == undefined
+          ? "Выберите время приема"
+          : `Выбрать ${active?.day} ${active?.month}, ${active?.time}`}
       </button>
 
       {openImg && <Modal doctor={doctor} info={active} setOpen={setOpenImg} />}

@@ -1,9 +1,11 @@
+import DocJobTimes from "./docJobTimes";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import PathName from "../../../components/atoms/pathName/pathName";
 
 //database
 import doctors from "../../../database/doctorsInfo.json";
-import DocJobTimes from "./docJobTimes";
+import OtherDoctors from "./otherDoctors";
 
 export default function Doctor() {
   const { pathname } = useLocation();
@@ -22,6 +24,11 @@ export default function Doctor() {
   return (
     <section className="pt-4 pb-20">
       <div className="container">
+        <PathName
+          titleLink={"/doctors"}
+          title={"Запись к врачу"}
+          subtitle={doctor?.name}
+        />
         <div className="flex gap-6 mb-6">
           <div className="rounded-2xl overflow-hidden w-full max-w-[486px] h-full max-h-[305px]">
             <img
@@ -48,6 +55,8 @@ export default function Doctor() {
         </div>
 
         <DocJobTimes doctor={doctor} />
+
+        <OtherDoctors />
       </div>
     </section>
   );

@@ -8,8 +8,8 @@ export default function DoctorsItem({ doctors }) {
         <li key={key + 2} className="rouded-2xl overflow-hidden max-w-[384px]">
           <div className="overflow-hidden rounded-t-2xl h-[241px]">
             <img
-              src={doctor.image}
               alt="img"
+              src={doctor.image}
               className="object-cover w-full h-full"
             />
           </div>

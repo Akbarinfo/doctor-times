@@ -1,7 +1,8 @@
 import DoctorsItem from "./doctorsItem";
 import { useEffect, useState } from "react";
+import Select, { components } from "react-select";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa6";
-import Select, { components, DropdownIndicatorProps } from "react-select";
+import PathName from "../../components/atoms/pathName/pathName";
 
 //database
 import options from "../../database/doctorType.json";
@@ -47,6 +48,7 @@ export default function Doctors() {
   return (
     <section className="pt-4 pb-20">
       <div className="container">
+        <PathName title={"Запись к врачу"} titleLink={""} subtitle={""} />
         <div className="flex gap-6 items-center mb-9">
           <h2 className="text-4xl text-color">Врачи</h2>
           <Select
@@ -60,7 +62,7 @@ export default function Doctors() {
 
         {loading && <DoctorsItem doctors={doctors} />}
 
-        {loading && (
+        {loading && doctors.length >= 9 && (
           <div className="flex justify-center">
             <button
               onClick={() => showAssDoctors(9)}
